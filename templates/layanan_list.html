@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Layanan & Tarif - Putra Laundry{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h4 class="mb-0">Layanan &amp; Tarif</h4>
+  <a class="btn btn-primary" href="{{ url_for('layanan_tambah') }}">+ Tambah</a>
+</div>
+<div class="card shadow-sm"><div class="table-responsive">
+  <table class="table table-hover mb-0">
+    <thead><tr><th>Layanan</th><th>Tarif / kg</th><th>Estimasi</th><th>Status</th><th></th></tr></thead>
+    <tbody>
+    {% for l in rows %}
+      <tr><td>{{ l.nama_layanan }}</td><td>{{ l.tarif_per_kg | rupiah }}</td><td>{{ l.estimasi_jam }} jam</td>
+          <td>{% if l.aktif %}<span class="badge text-bg-success">Aktif</span>{% else %}<span class="badge text-bg-secondary">Nonaktif</span>{% endif %}</td>
+          <td class="text-end"><a class="btn btn-sm btn-outline-primary" href="{{ url_for('layanan_ubah', lid=l.id) }}">Ubah</a></td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div></div>
+{% endblock %}
