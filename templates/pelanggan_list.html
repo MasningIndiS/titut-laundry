@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Pelanggan - Putra Laundry{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h4 class="mb-0">Pelanggan</h4>
+  <a class="btn btn-primary" href="{{ url_for('pelanggan_tambah') }}">+ Tambah</a>
+</div>
+<form class="mb-3" method="get">
+  <div class="input-group">
+    <input class="form-control" name="q" value="{{ q }}" placeholder="Cari nama atau nomor WhatsApp">
+    <button class="btn btn-outline-secondary">Cari</button>
+  </div>
+</form>
+<div class="card shadow-sm"><div class="table-responsive">
+  <table class="table table-hover mb-0">
+    <thead><tr><th>Nama</th><th>WhatsApp</th><th>Alamat</th><th>Member</th><th></th></tr></thead>
+    <tbody>
+    {% for p in rows %}
+      <tr><td>{{ p.nama }}</td><td>{{ p.no_whatsapp }}</td><td>{{ p.alamat or '-' }}</td>
+          <td>{% if p.is_member %}<span class="badge text-bg-success">Member</span>{% endif %}</td>
+          <td class="text-end"><a class="btn btn-sm btn-outline-primary" href="{{ url_for('pelanggan_ubah', pid=p.id) }}">Ubah</a></td></tr>
+    {% else %}
+      <tr><td colspan="5" class="text-center text-muted py-3">Data tidak ditemukan.</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div></div>
+{% endblock %}

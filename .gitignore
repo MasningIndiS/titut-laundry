@@ -1,0 +1,23 @@
+# Virtual environment Python
+venv/
+.venv/
+env/
+
+# Cache Python
+__pycache__/
+*.py[cod]
+
+# Rahasia / konfigurasi lokal (jangan diunggah)
+.env
+*.env
+
+# Editor & sistem operasi
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Log & cadangan database lokal
+*.log
+backup_*.sql

@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - Putra Laundry{% endblock %}
+{% block content %}
+<h4 class="mb-3">Dashboard</h4>
+
+{% if ringkasan %}
+<div class="row g-3 mb-4">
+  {% for label, nilai in [
+    ('Transaksi hari ini', ringkasan.transaksi_hari_ini),
+    ('Pemasukan hari ini', ringkasan.pemasukan_hari_ini | rupiah),
+    ('Pemasukan bulan ini', ringkasan.pemasukan_bulan_ini | rupiah),
+    ('Sedang diproses', ringkasan.sedang_diproses),
+    ('Siap diambil', ringkasan.siap_diambil),
+    ('Belum lunas', ringkasan.belum_lunas),
+    ('Total piutang', ringkasan.total_piutang | rupiah),
+    ('Selesai hari ini', ringkasan.selesai_hari_ini)] %}
+  <div class="col-6 col-md-3">
+    <div class="card shadow-sm h-100"><div class="card-body">
+      <div class="text-muted small">{{ label }}</div>
+      <div class="fs-5 fw-semibold">{{ nilai }}</div>
+    </div></div>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+<div class="card shadow-sm mb-4">
+  <div class="card-header fw-semibold">Reminder: cucian selesai, belum diambil</div>
+  <div class="table-responsive">
+    <table class="table table-sm mb-0">
+      <thead><tr><th>No. Transaksi</th><th>Pelanggan</th><th>WhatsApp</th><th>Selesai</th><th>Pembayaran</th></tr></thead>
+      <tbody>
+      {% for r in reminder %}
+        <tr><td>{{ r.no_transaksi }}</td><td>{{ r.pelanggan }}</td><td>{{ r.no_whatsapp }}</td>
+            <td>{{ r.tanggal_selesai.strftime('%d/%m/%Y %H:%M') if r.tanggal_selesai }}</td>
+            <td>{{ r.status_pembayaran }}</td></tr>
+      {% else %}
+        <tr><td colspan="5" class="text-muted text-center py-3">Tidak ada cucian menunggu diambil.</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="card shadow-sm">
+  <div class="card-header fw-semibold">Antrean pekerjaan</div>
+  <div class="table-responsive">
+    <table class="table table-sm mb-0">
+      <thead><tr><th>#</th><th>No. Transaksi</th><th>Pelanggan</th><th>Berat (kg)</th><th>Status</th><th>Estimasi selesai</th></tr></thead>
+      <tbody>
+      {% for a in antrian %}
+        <tr class="{{ 'table-warning' if a.terlambat }}">
+          <td>{{ a.urutan }}</td><td>{{ a.no_transaksi }}</td><td>{{ a.pelanggan }}</td>
+          <td>{{ a.total_berat }}</td><td>{{ a.status_pengerjaan }}</td>
+          <td>{{ a.estimasi_selesai.strftime('%d/%m/%Y %H:%M') if a.estimasi_selesai }}</td>
+        </tr>
+      {% else %}
+        <tr><td colspan="6" class="text-muted text-center py-3">Belum ada pekerjaan.</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Ubah' if l else 'Tambah' }} Layanan{% endblock %}
+{% block content %}
+<h4 class="mb-3">{{ 'Ubah' if l else 'Tambah' }} Layanan</h4>
+<form method="post" class="card shadow-sm p-4" style="max-width:560px">
+  <div class="mb-3"><label class="form-label">Nama layanan</label>
+    <input class="form-control" name="nama_layanan" value="{{ l.nama_layanan if l else '' }}" required></div>
+  <div class="mb-3"><label class="form-label">Tarif per kg (Rp)</label>
+    <input class="form-control" name="tarif_per_kg" type="number" min="0" step="100" value="{{ l.tarif_per_kg|int if l else '' }}" required></div>
+  <div class="mb-3"><label class="form-label">Estimasi pengerjaan (jam)</label>
+    <input class="form-control" name="estimasi_jam" type="number" min="0" value="{{ l.estimasi_jam if l else 24 }}" required></div>
+  {% if l %}
+  <div class="form-check mb-3">
+    <input class="form-check-input" type="checkbox" name="aktif" id="a" {{ 'checked' if l.aktif }}>
+    <label class="form-check-label" for="a">Aktif</label></div>
+  {% endif %}
+  <div><button class="btn btn-primary">Simpan</button>
+       <a class="btn btn-link" href="{{ url_for('layanan_list') }}">Batal</a></div>
+</form>
+{% endblock %}
